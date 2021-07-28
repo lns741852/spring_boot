@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Login Page</title>
+
+
+</head>
+<body>
+<div>
+
+<table style="width:500px;margin:20px auto;text-align: center">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>lastName</th>
+        <th>email</th>
+        <th>gender</th>
+        <th>department</th>
+        <th>birth</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 迴圈接收emps參數，用emp做別名 -->
+    <tr th:each="emp:${emps}">					<!--jsp用 <c:forEach items="$emps" var="emp"> -->
+        <td th:text="${emp.id}"></td>			<!--jsp用 ${emp.id} -->
+        <td>[[${emp.lastName}]]</td>
+        <td th:text="${emp.email}"></td>
+        <td th:text="${emp.gender}==0?'girl':'boy'"></td>
+        <td th:text="${emp.department.departmentName}"></td>
+
+        <!-- 日期格式化輸出 -->
+        <td th:text="${#dates.format(emp.birth,'yyy-mm-dd HH:mm')}"></td>
+        <td>
+            <a href="#" th:href="@{/emp/}+${emp.id}">编辑</a>
+            <!-- 解決form表單重複問題，用class指向js，並給予屬性 ，attr為自訂屬性&屬性值-->
+            <!--DeleteMapping-->
+            <button th:attr="del_uri=@{/emp/}+${emp.id}" class="deleteBtn">删除</button>
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<form id="deleteEmpForm"  method="post">
+    <input type="hidden" name="_method" value="delete"/>
+</form>
+
+
+<br>
+<a href="/emp">add</a>
+</div>
+
+<script type="text/javascript" src="asserts/js/jquery-3.2.1.slim.min.js"></script>
+
+
+<script>
+    $(".deleteBtn").click(function(){
+        $("#deleteEmpForm").attr("action",$(this).attr("del_uri")).submit();
+        return false;
+    });
+</script>
+
+</body>
+
+
+
+</html>
