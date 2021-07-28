@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Login Page</title>
+
+
+</head>
+<body>
+
+<form th:action="@{/emp}" method="post">
+    <!--springboot自動配置HiddenHttpMethodFilter，當值傳入emp時調用@PutMapping-->
+    <input type="hidden" name="_method" value="put" th:if="${emp!=null}"/>
+
+    <!-- 當值傳入emp時，需指定id用來update -->
+    <input type="hidden" name="id" th:if="${emp!=null}" th:value="${emp.id}">
+
+
+    <!-- name為提交時參數，更新時傳入value，添加時value為空 -->
+    <div>
+        <label>LastName</label>
+        <input name="lastName" type="text"  placeholder="姓名" th:value="${emp!=null}?${emp.lastName}">
+    </div>
+    <div>
+        <label>Email</label>
+        <input name="email" type="email"  placeholder="h001775784975@gmail.com" th:value="${emp!=null}?${emp.email}">
+    </div>
+
+    <!-- 選擇標籤分開做 -->
+    <div>
+        <label>Gender</label><br/>
+        <div>
+            <input type="radio" name="gender" value="1" th:checked="${emp!=null}?${emp.gender==1}">男	<!--jsp用 ${emp.gender ==1?'checked':''}-->
+        </div>
+        <div>
+            <input  type="radio" name="gender" value="0" th:checked="${emp!=null}?${emp.gender==0}">女
+        </div>
+    </div>
+    <div>
+        <label>department</label>
+        <!--部門提交的是id-->
+        <select name="department.id">
+            <!-- th:selected表示被選中的項目，遍歷後departmentName自動對應id -->
+            <option th:selected="${emp!=null}?${dept.id == emp.department.id}" th:value="${dept.id}" th:each="dept:${depts}" th:text="${dept.departmentName}">1</option>
+        </select>
+    </div>
+    <div>
+        <label>Birth</label>
+
+        <!-- 日期傳入需格式化 -->
+        <input name="birth" type="text" placeholder="yyyy-MM-dd" th:value="${emp!=null}?${#dates.format(emp.birth, 'yyyy-MM-dd HH:mm')}">
+    </div>
+    <button type="submit" th:text="${emp!=null}?'修改':'添加'">添加</button>
+</form>
+
+
+</body>
+
+</html>
