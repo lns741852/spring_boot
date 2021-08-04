@@ -5,7 +5,7 @@
 ## springboot-Redis
 * Cache + Redis 
 ## springboot-JPA
-*CRUD
+* CRUD
 ## springboot-RabbitMQ
 *
 ## springboot-Task
