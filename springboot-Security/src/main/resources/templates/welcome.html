@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1 align="center">歡迎光臨~</h1>
+<div sec:authorize="!isAuthenticated()">
+	 <p th:align="center"><a th:href="@{/userlogin}">登入</a></h2></p>
+</div>
+<div sec:authorize="isAuthenticated()">
+	<h2><span sec:authentication="name"></span>您好：
+		<span sec:authentication="principal.authorities"></span></h2>
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="登出"/>
+	</form>
+</div>
+
+<hr>
+
+<div sec:authorize="hasRole('VIP1')">
+	<h3>普通用戶</h3>
+	<ul>
+		<li><a th:href="@{/level1/1}">VIP1</a></li>
+	</ul>
+
+</div>
+
+<div sec:authorize="hasRole('VIP2')">
+	<h3>中級用戶</h3>
+	<ul>
+		<li><a th:href="@{/level2/1}">VIP2</a></li>
+	</ul>
+
+</div>
+
+<div sec:authorize="hasRole('VIP3')">
+	<h3>高級用戶</h3>
+	<ul>
+		<li><a th:href="@{/level3/1}">VIP3</a></li>
+	</ul>
+</div>
+
+
+</body>
+</html>
